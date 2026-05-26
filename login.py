@@ -1,52 +1,81 @@
+umport tkinter as tk
+from tkinter import messagebox
+
 usuarios = {}
 
-while True:
+def cadastrar():
+    usuario = entrada_usuario.get()
+    senha = entrada_senha.get()
 
-    print("\n====== SISTEMA ======")
-    print("1 - Cadastrar")
-    print("2 - Login")
-    print("3 - Listar usuários")
-    print("4 - Sair")
-
-    opcao = input("Escolha uma opção: ")
-
-    # CADASTRO
-    if opcao == "1":
-
-        usuario = input("Crie um usuário: ")
-        
-        if usuario in usuarios:
-            print("Esse usuário já existe!")
-        else:
-            senha = input("Crie uma senha: ")
-            usuarios[usuario] = senha
-            print("Usuário cadastrado com sucesso!")
-
-    # LOGIN
-    elif opcao == "2":
-
-        usuario = input("Usuário: ")
-        senha = input("Senha: ")
-
-        if usuario in usuarios and usuarios[usuario] == senha:
-            print(f"Bem-vindo, {usuario}!")
-        else:
-            print("Usuário ou senha incorretos!")
-
-    # LISTAR USUÁRIOS
-    elif opcao == "3":
-
-        if len(usuarios) == 0:
-            print("Nenhum usuário cadastrado.")
-        else:
-            print("\nUsuários cadastrados:")
-            for u in usuarios:
-                print("-", u)
-
-    # SAIR
-    elif opcao == "4":
-        print("Sistema encerrado.")
-        break
-
+    if usuario in usuarios:
+        messagebox.showerror("Erro", "Usuário já existe!")
     else:
-        print("Opção inválida!")
+        usuarios[usuario] = senha
+        messagebox.showinfo("Sucesso", "Usuário cadastrado!")
+
+def login():
+    usuario = entrada_usuario.get()
+    senha = entrada_senha.get()
+
+    if usuario in usuarios and usuarios[usuario] == senha:
+        messagebox.showinfo("Login", f"Bem-vindo, {usuario}!")
+    else:
+        messagebox.showerror("Erro", "Usuário ou senha incorretos!")
+
+janela = tk.Tk()
+janela.title("Sistema de Login")
+janela.geometry("350x250")
+janela.configure(bg="#1e1e1e")
+
+titulo = tk.Label(
+    janela,
+    text="SISTEMA LOGIN",
+    font=("Arial", 18, "bold"),
+    bg="#1e1e1e",
+    fg="white"
+)
+titulo.pack(pady=15)
+
+label_usuario = tk.Label(
+    janela,
+    text="Usuário",
+    bg="#1e1e1e",
+    fg="white"
+)
+label_usuario.pack()
+
+entrada_usuario = tk.Entry(janela, width=30)
+entrada_usuario.pack(pady=5)
+
+label_senha = tk.Label(
+    janela,
+    text="Senha",
+    bg="#1e1e1e",
+    fg="white"
+)
+label_senha.pack()
+
+entrada_senha = tk.Entry(janela, show="*", width=30)
+entrada_senha.pack(pady=5)
+
+botao_login = tk.Button(
+    janela,
+    text="Login",
+    bg="green",
+    fg="white",
+    width=15,
+    command=login
+)
+botao_login.pack(pady=10)
+
+botao_cadastro = tk.Button(
+    janela,
+    text="Cadastrar",
+    bg="blue",
+    fg="white",
+    width=15,
+    command=cadastrar
+)
+botao_cadastro.pack()
+
+janela.mainloop()
